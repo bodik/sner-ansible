@@ -1,0 +1,28 @@
+---
+- name: install packages
+  apt:
+    name: prometheus
+    state: present
+
+- name: config prometheus listener
+  lineinfile:
+    path: /etc/default/prometheus
+    regexp: '^ARGS='
+    line: "ARGS=\"--web.listen-address='127.0.0.1:9090'\""
+  notify: restart prometheus
+
+- name: config prometheus-node-exporter listener
+  lineinfile:
+    path: /etc/default/prometheus-node-exporter
+    regexp: '^ARGS='
+    line: "ARGS=\"--web.listen-address='127.0.0.1:9100'\""
+  notify: restart prometheus-node-exporter
+
+- name: config prometheus.yml
+  copy:
+    src: files/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart prometheus

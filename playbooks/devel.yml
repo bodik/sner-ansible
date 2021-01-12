@@ -1,0 +1,27 @@
+---
+- name: install all in one setup for localhost
+  hosts: localhost
+
+  roles:
+    - role: sner.install
+      vars:
+        branch: devel
+
+  tasks:
+    - name: install database
+      apt:
+        name: postgresql-all
+
+    - name: create dev environment
+      shell:
+        cmd: |
+          set -e
+          ln -s ../../extra/git_hookprecommit.sh .git/hooks/pre-commit
+          . venv/bin/activate
+          make db-create-test
+          make install-extra
+          make db-create-default
+          make db
+          touch .ansible-sner.dev_installed
+        chdir: /opt/sner
+        creates: /opt/sner/.ansible-sner.dev_installed

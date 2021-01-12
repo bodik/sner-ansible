@@ -1,0 +1,32 @@
+---
+- name: add agent
+  shell:
+    cmd: |
+      . venv/bin/activate
+      umask 077
+      bin/server auth add-agent > {{ apikey_cache_path }}
+    chdir: /opt/sner
+    creates: "{{ apikey_cache_path }}"
+
+- name: apikey as fact
+  set_fact:
+    apikey: "{{ lookup('file', apikey_cache_path).split(' ')[-1] }}"
+
+- name: agent config
+  blockinfile:
+    path: /etc/sner.yaml
+    create: true
+    marker: "# ANSIBLE MARKER {mark} agent config"
+    block: |
+      agent:
+        server: "{{ server_url }}"
+        apikey: "{{ apikey }}"
+
+- name: prepare agent service file
+  copy:
+    src: files/sner-agent@.service
+    dest: /etc/systemd/system/sner-agent@.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd

@@ -1,0 +1,73 @@
+---
+- name: install server deps
+  apt:
+    name:
+      - postgresql-all
+      - python3-psycopg2
+
+- name: create database and user
+  block:
+    - name: create databse
+      postgresql_db:
+        name: sner
+
+    - name: create database user
+      postgresql_user:
+        name: sner
+        password: "{{ db_password }}"
+  become: true
+  become_user: postgres
+
+- name: var storage
+  file:
+    path: /var/lib/sner
+    state: directory
+    owner: www-data
+
+- name: sner.yaml server config
+  blockinfile:
+    path: /etc/sner.yaml
+    create: true
+    marker: "# ANSIBLE MARKER {mark} server config"
+    block: |
+      server:
+        secret: '{{ server_secret }}'
+        db: 'postgresql://sner:{{ db_password }}@localhost/sner'
+        application_root: '/sner'
+        session_idletime: 36000
+
+- name: initialize database
+  shell:
+    cmd: |
+      set -e
+      . venv/bin/activate
+      make db
+      touch .ansible-sner.db_installed
+    chdir: /opt/sner
+    creates: /opt/sner/.ansible-sner.db_installed
+
+- name: gunicorn sner web service
+  copy:
+    src: files/sner-web.service
+    dest: /etc/systemd/system/sner-web.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart sner-web
+
+- name: enable sner-web service
+  service:
+    name: sner-web
+    enabled: true
+    state: started
+
+- name: configure sner proxy
+  copy:
+    content: |
+      ProxyPass /sner http://127.0.0.1:18001/sner
+      ProxyPassReverse /sner http://127.0.0.1:18001/sner
+    dest: /etc/apache2/conf-enabled/sner.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2

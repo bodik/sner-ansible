@@ -1,0 +1,2 @@
+---
+grafana_admin_secret: "{{ lookup('password', '/etc/grafana/grafana.ansible-sner.admin_secret chars=ascii_letters,digits length=40') }}"

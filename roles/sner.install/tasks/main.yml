@@ -1,0 +1,25 @@
+---
+- name: install deps
+  apt:
+    name:
+      - git
+      - sudo
+      - make
+
+- name: checkout from git
+  git:
+    repo: "{{ repo }}"
+    version: "{{ branch }}"
+    dest: /opt/sner
+    update: false
+
+- name: create venv and install dependencies
+  shell:
+    cmd: |
+      set -e
+      make venv
+      . venv/bin/activate
+      make install-deps
+      touch .ansible-sner.venv_installed
+    chdir: /opt/sner
+    creates: /opt/sner/.ansible-sner.venv_installed

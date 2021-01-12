@@ -1,0 +1,45 @@
+---
+- name: install deps
+  apt:
+    name: apache2
+
+- name: proxy modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - proxy
+    - proxy_http
+    - ssl
+  notify: restart apache2
+
+- name: apache2 ssl cert directory
+  file:
+    path: /etc/apache2/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: generate self-signed certificate
+  vars:
+    key_file: /etc/apache2/ssl/server.key
+    crt_file: /etc/apache2/ssl/server.crt
+  command: "openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout {{ key_file }} -out {{ crt_file }} -subj '/CN={{ ansible_fqdn }}'"
+  args:
+    creates: /etc/apache2/ssl/server.crt
+
+- name: remove default site-enabled config
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: restart apache2
+
+- name: simple apache config
+  copy:
+    src: files/00server.conf
+    dest: /etc/apache2/sites-enabled/00server.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2

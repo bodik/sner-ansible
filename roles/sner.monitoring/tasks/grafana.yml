@@ -1,0 +1,60 @@
+---
+- name: install deps
+  apt:
+    name:
+      - apt-transport-https
+      - software-properties-common
+      - wget
+    state: present
+
+- name: add repo key
+  apt_key:
+    id: 8C8C34C524098CB6
+    url: https://packages.grafana.com/gpg.key
+    state: present
+
+- name: add repo
+  apt_repository:
+    repo: 'deb https://packages.grafana.com/oss/deb stable main'
+    state: present
+
+- name: install packages
+  apt:
+    name: grafana
+    state: present
+
+- name: enable grafana-server
+  service:
+    name: grafana-server
+    enabled: true
+
+- name: configure grafana-server listener
+  ini_file:
+    path: /etc/grafana/grafana.ini
+    section: server
+    option: "{{ item['key'] }}"
+    value: "{{ item['val'] }}"
+  loop:
+    - {key: http_addr, val: 127.0.0.1}
+    - {key: root_url, val: "https://{{ ansible_fqdn }}/grafana"}
+    - {key: serve_from_sub_path, val: 'true'}
+  notify: restart grafana-server
+
+- name: set admin secret
+  shell:
+    cmd: |
+      sudo -u grafana grafana-cli admin reset-admin-password {{ grafana_admin_secret }}
+      touch .ansible-sner.grafana_admin_password
+    chdir: /opt/sner
+    creates: /opt/sner/.ansible-sner.grafana_admin_password
+
+- name: configure grafana reverse proxy
+  copy:
+    content: |
+      ProxyPass /grafana http://127.0.0.1:3000/grafana
+      ProxyPassReverse /grafana http://127.0.0.1:3000/grafana
+    dest: /etc/apache2/conf-enabled/grafana.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2

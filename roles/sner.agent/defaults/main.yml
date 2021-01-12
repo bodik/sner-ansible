@@ -1,0 +1,3 @@
+---
+server_url: 'http://localhost/sner'
+apikey_cache_path: /etc/sner.yaml.ansible-sner.agent_apikey
