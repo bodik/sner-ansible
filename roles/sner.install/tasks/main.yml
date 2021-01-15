@@ -20,6 +20,6 @@
       make venv
       . venv/bin/activate
       make install-deps
-      touch .ansible-sner.venv_installed
+      touch .sner-ansible.venv_installed
     chdir: /opt/sner
-    creates: /opt/sner/.ansible-sner.venv_installed
+    creates: /opt/sner/.sner-ansible.venv_installed

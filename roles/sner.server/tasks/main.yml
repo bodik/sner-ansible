@@ -42,9 +42,9 @@
       set -e
       . venv/bin/activate
       make db
-      touch .ansible-sner.db_installed
+      touch .sner-ansible.db_installed
     chdir: /opt/sner
-    creates: /opt/sner/.ansible-sner.db_installed
+    creates: /opt/sner/.sner-ansible.db_installed
 
 - name: gunicorn sner web service
   copy:

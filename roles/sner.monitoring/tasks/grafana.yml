@@ -43,10 +43,10 @@
 - name: set admin secret
   shell:
     cmd: |
-      sudo -u grafana grafana-cli admin reset-admin-password {{ grafana_admin_secret }}
-      touch .ansible-sner.grafana_admin_password
+      sudo -u grafana grafana-cli admin reset-admin-password {{ grafana_admin_password }}
+      touch .sner-ansible.grafana_admin_password
     chdir: /opt/sner
-    creates: /opt/sner/.ansible-sner.grafana_admin_password
+    creates: /opt/sner/.sner-ansible.grafana_admin_password
 
 - name: configure grafana reverse proxy
   copy:
