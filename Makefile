@@ -1,7 +1,6 @@
 all: lint
 
-install:
-	apt-get update
+install-deps:
 	apt-get -y install git make ansible yamllint ansible-lint
 
 lint: lint-yaml lint-ansible
