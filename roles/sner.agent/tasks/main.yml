@@ -19,8 +19,8 @@
     marker: "# ANSIBLE MARKER {mark} agent config"
     block: |
       agent:
-        server: "{{ server_url }}"
-        apikey: "{{ apikey }}"
+        server: '{{ server_url }}'
+        apikey: '{{ apikey }}'
 
 - name: prepare agent service file
   copy:

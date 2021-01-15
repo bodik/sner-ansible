@@ -35,6 +35,7 @@
         db: 'postgresql://sner:{{ db_password }}@localhost/sner'
         application_root: '/sner'
         session_idletime: 36000
+  notify: restart sner-web
 
 - name: initialize database
   shell:
