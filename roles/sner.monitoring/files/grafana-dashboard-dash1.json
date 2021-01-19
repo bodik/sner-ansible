@@ -269,6 +269,7 @@
       "targets": [
         {
           "expr": "sner_scheduler_jobs_total{job=\"sner-local\"}",
+          "instant": true,
           "interval": "",
           "legendFormat": "jobs {{state}}",
           "refId": "A"
@@ -390,5 +391,5 @@
   "timezone": "",
   "title": "dash1",
   "uid": "iTu5b_bGk",
-  "version": 2
+  "version": 3
 }
