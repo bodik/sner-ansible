@@ -23,11 +23,6 @@
     name: grafana
     state: present
 
-- name: enable grafana-server
-  service:
-    name: grafana-server
-    enabled: true
-
 - name: configure grafana-server listener
   ini_file:
     path: /etc/grafana/grafana.ini
@@ -58,3 +53,40 @@
     group: root
     mode: 0644
   notify: restart apache2
+
+- name: enable and start grafana-server
+  service:
+    name: grafana-server
+    enabled: true
+    state: started
+
+- name: check datasource exist
+  uri:
+    url: 'http://127.0.0.1:3000/api/datasources/name/prometheus'
+    user: admin
+    password: "{{ grafana_admin_password }}"
+    force_basic_auth: true
+    status_code: [200, 404]
+  register: datasource_exist
+
+- name: create datasource
+  vars:
+    create_request:
+      name: prometheus
+      type: prometheus
+      url: http://127.0.0.1:9090
+      access: proxy
+      isDefault: true
+  uri:
+    url: 'http://127.0.0.1:3000/api/datasources'
+    method: POST
+    user: admin
+    password: "{{ grafana_admin_password }}"
+    force_basic_auth: true
+    body_format: json
+    body: "{{ create_request }}"
+  when: datasource_exist.status == 404
+
+- name: import dashboards
+  include_tasks: grafana_import_dashboard.yml
+  with_fileglob: 'files/grafana-dashboards/*.json'
