@@ -1,16 +1,18 @@
 ---
 scrape_configs:
-  # Prometheus itself.
+  # prometheus itself (default)
   - job_name: prometheus
     scrape_interval: 5s
     scrape_timeout: 5s
     static_configs:
       - targets: ['localhost:9090']
 
+  # prometheus local node exporter (default)
   - job_name: node
     static_configs:
       - targets: ['localhost:9100']
 
+  # sner prod
   - job_name: sner-local
     scheme: https
     metrics_path: /sner/api/v1/stats/prometheus
@@ -18,3 +20,9 @@ scrape_configs:
       - targets: ['localhost']
     tls_config:
       insecure_skip_verify: true
+
+#  # sner devel
+#  - job_name: sner-local
+#    metrics_path: /api/v1/stats/prometheus
+#    static_configs:
+#      - targets: ['localhost:18000']
