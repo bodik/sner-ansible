@@ -5,6 +5,6 @@
 ```
 git clone https://github.com/bodik/sner-ansible
 cd sner-ansible
-make install
+make install-deps
 make allinone
 ```
