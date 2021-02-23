@@ -1,0 +1,33 @@
+---
+- name: install snerlytics node
+  hosts: localhost
+
+  vars:
+    snerlytics_user: user1
+    snerlytics_password: "{{ lookup('password', '/etc/sner-ansible/snerlytics_password chars=ascii_letters,digits length=40') }}"
+
+  roles:
+    - role: bodik.swapfile
+
+    - role: sner.apache2
+      vars:
+        require_basicauth: true
+
+    - role: snerlytics.elk
+      vars:
+        heap_size: 2g
+
+    - role: snerlytics.cvesearch
+
+  tasks:
+    - name: install deps
+      apt:
+        name: python3-passlib
+        state: present
+
+    - name: ensure first user
+      htpasswd:
+        path: /etc/apache2/htpasswd
+        username: "{{ snerlytics_user }}"
+        password: "{{ snerlytics_password }}"
+      no_log: true
