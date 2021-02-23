@@ -25,7 +25,10 @@
   vars:
     key_file: /etc/apache2/ssl/server.key
     crt_file: /etc/apache2/ssl/server.crt
-  command: "openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout {{ key_file }} -out {{ crt_file }} -subj '/CN={{ ansible_fqdn }}'"
+  command: >-
+    openssl req -new -newkey rsa:2048 -days 365 -nodes -x509
+    -subj "/CN={{ ansible_facts['fqdn'] }}" -addext "subjectAltName = DNS:{{ ansible_facts['fqdn'] }}"
+    -keyout "{{ key_file }}" -out "{{ crt_file }}"
   args:
     creates: /etc/apache2/ssl/server.crt
 
