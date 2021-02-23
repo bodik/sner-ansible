@@ -1,0 +1,14 @@
+---
+common_packages_install:
+  - atop
+  - curl
+  - git
+  - mc
+  - net-tools
+  - screen
+  - vim
+
+common_packages_remove:
+  - joe
+  - nano
+  - pico

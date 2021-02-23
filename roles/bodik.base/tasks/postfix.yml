@@ -1,0 +1,21 @@
+---
+- name: install postfix
+  apt:
+    name: postfix
+    state: present
+
+- name: configure postfix
+  lineinfile:
+    path: /etc/postfix/main.cf
+    line: 'inet_interfaces = loopback-only'
+    regexp: "^inet_interfaces = "
+    state: present
+  notify: restart postfix
+
+- name: configure mailname
+  copy:
+    dest: /etc/mailname
+    content: "{{ ansible_facts['fqdn'] }}\n"
+    owner: root
+    group: root
+    mode: 0644

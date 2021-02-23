@@ -1,26 +1,4 @@
 ---
-- name: install basic packages
-  apt:
-    name:
-      - curl
-      - git
-      - mc
-      - net-tools
-      - vim
-    state: present
-
-- name: purge basic packages
-  apt:
-    name:
-      - joe
-      - nano
-      - pico
-    state: absent
-
-- name: vimrc.local
-  copy:
-    src: files/vimrc.local
-    dest: /etc/vim/vimrc.local
-    owner: root
-    group: root
-    mode: 0644
+- import_tasks: hostname.yml
+- import_tasks: common.yml
+- import_tasks: postfix.yml

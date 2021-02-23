@@ -1,0 +1,13 @@
+---
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: restart postfix
+  service:
+    name: postfix
+    state: restarted
+
+- name: newaliases
+  command: /usr/bin/newaliases
