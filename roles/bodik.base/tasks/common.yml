@@ -36,6 +36,29 @@
     state: present
 
 
+# locales
+- name: local timezone
+  timezone:
+    name: Europe/Prague
+
+- name: install locales
+  apt:
+    name: locales
+    state: present
+
+- name: configure locales
+  lineinfile:
+    path: /etc/locale.gen
+    line: "{{ item }}"
+    state: present
+  loop:
+    - en_US.UTF-8 UTF-8
+    - cs_CZ.UTF-8 UTF-8
+    - sk_SK.UTF-8 UTF-8
+  notify:
+    - generate locales
+
+
 # sshd
 - name: configure sshd
   lineinfile:

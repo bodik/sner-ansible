@@ -16,7 +16,6 @@
     - ['inet_interfaces', 'loopback-only']
   notify: restart postfix
 
-
 - name: configure mailname
   copy:
     dest: /etc/mailname

@@ -11,3 +11,9 @@
 
 - name: newaliases
   command: /usr/bin/newaliases
+
+- name: generate locales
+  command: /usr/sbin/locale-gen
+
+- name: reload sysctl hardnet
+  command: "/sbin/sysctl --load={{ sysctl_hardnet_file }}"

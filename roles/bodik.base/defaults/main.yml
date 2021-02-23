@@ -12,3 +12,5 @@ common_packages_remove:
   - joe
   - nano
   - pico
+
+sysctl_hardnet_file: /etc/sysctl.d/hardnet.conf
