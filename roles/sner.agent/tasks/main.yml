@@ -4,6 +4,7 @@
     cmd: |
       . venv/bin/activate
       umask 077
+      mkdir -p {{ apikey_cache_path | dirname }}
       bin/server auth add-agent > {{ apikey_cache_path }}
     chdir: /opt/sner
     creates: "{{ apikey_cache_path }}"
