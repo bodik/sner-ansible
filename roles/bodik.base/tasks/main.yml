@@ -2,8 +2,10 @@
 - name: install basic packages
   apt:
     name:
+      - curl
       - git
       - mc
+      - net-tools
       - vim
     state: present
 
