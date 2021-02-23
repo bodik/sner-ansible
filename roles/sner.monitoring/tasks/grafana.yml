@@ -31,7 +31,7 @@
     value: "{{ item['val'] }}"
   loop:
     - {key: http_addr, val: 127.0.0.1}
-    - {key: root_url, val: "https://{{ ansible_fqdn }}/grafana"}
+    - {key: root_url, val: "https://{{ ansible_facts['fqdn'] }}/grafana"}
     - {key: serve_from_sub_path, val: 'true'}
   notify: restart grafana-server
 
