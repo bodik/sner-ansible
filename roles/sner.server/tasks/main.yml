@@ -24,6 +24,13 @@
     state: directory
     owner: www-data
 
+- name: ensure config file permissions
+  file:
+    path: /etc/sner.yaml
+    owner: root
+    group: www-data
+    mode: 0640
+
 - name: sner.yaml server config
   blockinfile:
     path: /etc/sner.yaml
