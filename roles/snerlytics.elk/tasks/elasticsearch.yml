@@ -1,0 +1,34 @@
+---
+- name: install package
+  apt:
+    name: elasticsearch
+    state: present
+
+- name: set heap size
+  copy:
+    content: |
+      -Xms{{ heap_size }}
+      -Xmx{{ heap_size }}
+    dest: /etc/elasticsearch/jvm.options.d/heap_size.options
+    owner: root
+    group: root
+    mode: 0644
+  when: heap_size is defined
+  notify: restart elasticsearch
+
+- name: run service
+  service:
+    name: elasticsearch
+    enabled: true
+    state: started
+
+- name: configure reverse proxy
+  copy:
+    content: |
+      ProxyPass /esd http://127.0.0.1:9200
+      ProxyPassReverse /esd http://127.0.0.1:9200
+    dest: /etc/apache2/conf-enabled/esd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2

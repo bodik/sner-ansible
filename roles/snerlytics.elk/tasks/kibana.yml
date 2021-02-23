@@ -1,0 +1,71 @@
+---
+- name: install package
+  apt:
+    name: kibana
+    state: present
+
+- name: config file
+  lineinfile:
+    path: /etc/kibana/kibana.yml
+    line: 'server.basePath: "/kibana"'
+    regexp: '^server.basePath:'
+  notify: restart kibana
+
+- name: run service
+  service:
+    name: kibana
+    enabled: true
+
+- name: configure reverse proxy
+  copy:
+    content: |
+      ProxyPass /kibana http://127.0.0.1:5601
+      ProxyPassReverse /kibana http://127.0.0.1:5601
+    dest: /etc/apache2/conf-enabled/kibana.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2
+
+- name: npm and nodejs
+  apt:
+    name:
+      - npm
+      - nodejs
+    state: present
+
+- name: install elasticdump
+  npm:
+    name: elasticdump
+    global: true
+    state: present
+
+- name: config index helpers
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - files/kibana/kibana_backup.sh
+    - files/kibana/kibana_restore.sh
+
+- name: config index data
+  copy:
+    src: files/kibana/kibana-data.json
+    dest: /usr/local/share/kibana-data.json
+    owner: root
+    group: root
+    mode: 0644
+
+- name: config index check
+  uri:
+    url: http://localhost:9200/.kibana/_stats
+    status_code: [200, 404]
+  register: kibana_index_check
+
+- name: config index setup
+  command: /usr/local/bin/kibana_restore.sh
+  when: kibana_index_check.status == 404
+  notify: restart kibana

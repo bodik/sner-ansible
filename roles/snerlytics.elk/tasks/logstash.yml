@@ -1,0 +1,21 @@
+---
+- name: install package
+  apt:
+    name: logstash
+    state: present
+
+- name: config
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_fileglob: 'files/logstash-conf.d/*.conf'
+  notify: restart logstash
+
+- name: ensure service
+  service:
+    name: logstash
+    enabled: true
+    state: started

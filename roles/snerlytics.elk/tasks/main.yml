@@ -1,0 +1,4 @@
+---
+- include: elastic_repo.yml
+- include: elasticsearch.yml
+- include: kibana.yml
