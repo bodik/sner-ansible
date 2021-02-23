@@ -13,8 +13,8 @@ lint-ansible:
 	ansible-lint -v roles/*
 
 allinone:
-	ansible-playbook playbooks/simple.yml
-	ansible-playbook playbooks/monitoring.yml
+	ansible-playbook playbooks/sner_simple.yml
+	ansible-playbook playbooks/sner_monitoring.yml
 
 devel:
-	ansible-playbook playbooks/devel.yml
+	ansible-playbook playbooks/sner_devel.yml
