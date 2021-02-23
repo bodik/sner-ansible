@@ -7,10 +7,15 @@
 - name: configure postfix
   lineinfile:
     path: /etc/postfix/main.cf
-    line: 'inet_interfaces = loopback-only'
-    regexp: "^inet_interfaces = "
+    line: "{{ item[0] }} = {{ item[1] }}"
+    regexp: "^{{ item[0] }} *="
     state: present
+  loop:
+    - ['myhostname', "{{ ansible_facts['fqdn'] }}"]
+    - ['mydestination', "$myhostname, localhost"]
+    - ['inet_interfaces', 'loopback-only']
   notify: restart postfix
+
 
 - name: configure mailname
   copy:
