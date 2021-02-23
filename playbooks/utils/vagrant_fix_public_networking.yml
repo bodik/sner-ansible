@@ -1,0 +1,36 @@
+---
+# vagrant debian box with public network an duse_dhcp_assigned_default_route
+# results in two dhclients running assigning multiple addresses for the
+# interface eth1.
+#
+# it's not possible to fix it, because network setup scripts/templates in
+# vagrant are shared by multiple platforms (debian, ubuntu) and those are
+# behaves differently by themselves. the best option is to fix networking after
+# box is built:
+#
+# 1. drop eth0 dhclient and fix addres (this playbook)
+# 2. shutdown box
+# 3. update Vagrantfile, use auto_config: false for public network interface
+# 4. start the box
+
+- name: fix vagrant public networking
+  hosts: localhost
+  tasks:
+    - name: network/interfaces
+      copy:
+        content: |
+          source /etc/network/interfaces.d/*
+
+          auto lo
+          iface lo inet loopback
+
+          auto eth0
+          iface eth0 inet static
+            address 10.0.2.15/24
+
+          auto eth1
+          iface eth1 inet dhcp
+        dest: /etc/network/interfaces
+        owner: root
+        group: root
+        mode: 0644
