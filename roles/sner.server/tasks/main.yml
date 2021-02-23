@@ -30,6 +30,7 @@
     owner: root
     group: www-data
     mode: 0640
+    state: touch
 
 - name: sner.yaml server config
   blockinfile:
