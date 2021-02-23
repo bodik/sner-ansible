@@ -24,18 +24,19 @@
     state: directory
     owner: www-data
 
-- name: ensure config file permissions
+- name: config file
   file:
     path: /etc/sner.yaml
     owner: root
     group: www-data
     mode: 0640
     state: touch
+    access_time: preserve
+    modification_time: preserve
 
-- name: sner.yaml server config
+- name: server config
   blockinfile:
     path: /etc/sner.yaml
-    create: true
     marker: "# ANSIBLE MARKER {mark} server config"
     block: |
       server:

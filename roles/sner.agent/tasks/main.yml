@@ -13,10 +13,19 @@
   set_fact:
     apikey: "{{ lookup('file', apikey_cache_path).split(' ')[-1] }}"
 
+- name: config file
+  file:
+    path: /etc/sner.yaml
+    owner: root
+    group: www-data
+    mode: 0640
+    state: touch
+    access_time: preserve
+    modification_time: preserve
+
 - name: agent config
   blockinfile:
     path: /etc/sner.yaml
-    create: true
     marker: "# ANSIBLE MARKER {mark} agent config"
     block: |
       agent:
