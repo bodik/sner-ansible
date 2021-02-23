@@ -78,4 +78,4 @@
     name: cvesearch db update
     minute: 11
     hour: 5
-    job: "/opt/cvesearch/venv/bin/python /opt/cvesearch/sbin/db_updater.py -v"
+    job: '/opt/cvesearch/venv/bin/python /opt/cvesearch/sbin/db_updater.py -v 1>/dev/null'
