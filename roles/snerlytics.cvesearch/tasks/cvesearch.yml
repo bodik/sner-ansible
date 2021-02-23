@@ -1,0 +1,81 @@
+---
+- name: checkout from git
+  git:
+    repo: "{{ repo }}"
+    version: "{{ branch }}"
+    dest: "/opt/cvesearch"
+    update: false
+
+- name: read system requirements
+  set_fact:
+    required_packages: "{{ lookup('file', '/opt/cvesearch/requirements.system').splitlines() }}"
+
+- name: system deps
+  apt:
+    name: "{{ item }}"
+  loop:
+    - "{{ required_packages }}"
+    - python-virtualenv
+    - python3-virtualenv
+
+- name: python deps
+  pip:
+    requirements: "/opt/cvesearch/requirements.txt"
+    virtualenv: "/opt/cvesearch/venv"
+    virtualenv_python: python3
+
+- name: config file
+  copy:
+    src: files/configuration.ini
+    dest: "/opt/cvesearch/etc/configuration.ini"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart cvesearch
+
+- name: system integration paths
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: adm
+    mode: 0755
+  loop:
+    - /var/lib/cvesearch
+    - /var/log/cvesearch
+
+- name: monkyepatch fs for logger
+  file:
+    src: /var/log/cvesearch
+    dest: /opt/cvesearch/log
+    state: link
+
+- name: cvesearch web service
+  copy:
+    src: files/cvesearch.service
+    dest: /etc/systemd/system/cvesearch.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart cvesearch
+
+- name: enable cvesearch service
+  service:
+    name: cvesearch
+    enabled: true
+
+- name: configure http proxy
+  copy:
+    src: files/apache_virtualhost.conf
+    dest: /etc/apache2/sites-enabled/cvesearch.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2
+
+- name: enable db update
+  cron:
+    name: cvesearch db update
+    minute: 11
+    hour: 5
+    job: "/opt/cvesearch/venv/bin/python /opt/cvesearch/sbin/db_updater.py -v"

@@ -1,0 +1,29 @@
+---
+- name: install deps
+  apt:
+    name:
+      - apt-transport-https
+      - wget
+    state: present
+
+- name: add repo key
+  apt_key:
+    id: 656408E390CFB1F5
+    url: https://www.mongodb.org/static/pgp/server-4.4.asc
+    state: present
+
+- name: add repo
+  apt_repository:
+    repo: 'deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main'
+    state: present
+
+- name: install mongodb
+  apt:
+    name: mongodb-org
+    state: present
+
+- name: start mongod
+  service:
+    name: mongod
+    enabled: true
+    state: started
