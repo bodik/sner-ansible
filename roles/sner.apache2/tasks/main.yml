@@ -43,3 +43,35 @@
     group: root
     mode: 0644
   notify: restart apache2
+
+- name: forcehttps
+  copy:
+    src: files/zz_forcehttps.conf
+    dest: /etc/apache2/conf-enabled/zz_forcehttps.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2
+
+- name: require basicauth
+  block:
+    - name: basicauth db
+      file:
+        path: /etc/apache2/htpasswd
+        state: touch
+        owner: root
+        group: www-data
+        mode: 0640
+        access_time: preserve
+        modification_time: preserve
+      notify: restart apache2
+
+    - name: basicauth conf
+      copy:
+        src: files/zz_basicauth.conf
+        dest: /etc/apache2/conf-enabled/zz_basicauth.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2
+  when: require_basicauth
