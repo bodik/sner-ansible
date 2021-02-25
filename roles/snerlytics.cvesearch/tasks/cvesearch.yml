@@ -76,6 +76,6 @@
 - name: enable db update
   cron:
     name: cvesearch db update
-    minute: 11
-    hour: 5
+    minute: 1
+    hour: 3
     job: '/opt/cvesearch/venv/bin/python /opt/cvesearch/sbin/db_updater.py -v 1>/dev/null'
