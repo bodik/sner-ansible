@@ -2,7 +2,7 @@
 # apt
 - name: configure apt repository
   copy:
-    src: common/sources.list
+    src: "common/sources.list.{{ ansible_distribution_release }}"
     dest: /etc/apt/sources.list
     owner: root
     group: root
