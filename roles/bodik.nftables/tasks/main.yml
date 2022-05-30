@@ -1,0 +1,21 @@
+---
+- name: install packages
+  apt:
+    name:
+      - nftables
+    state: present
+
+- name: nftables configfig
+  copy:
+    src: "{{ rules_file }}"
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart nftables
+
+- name: nftables service
+  service:
+    name: nftables
+    enabled: true
+    state: started
