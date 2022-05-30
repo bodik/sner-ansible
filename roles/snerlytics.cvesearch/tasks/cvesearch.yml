@@ -64,15 +64,6 @@
     name: cvesearch
     enabled: true
 
-- name: configure http proxy
-  copy:
-    src: files/apache_virtualhost.conf
-    dest: /etc/apache2/sites-enabled/cvesearch.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2
-
 - name: enable db update
   cron:
     name: cvesearch db update

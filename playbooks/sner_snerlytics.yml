@@ -8,16 +8,15 @@
 
   roles:
     - role: bodik.swapfile
-
     - role: sner.apache2
-      vars:
-        require_basicauth: true
-
     - role: snerlytics.elk
-      vars:
-        heap_size: 2g
-
     - role: snerlytics.cvesearch
+
+  handlers:
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted
 
   tasks:
     - name: install deps
@@ -34,3 +33,60 @@
         group: www-data
         mode: 0640
       no_log: true
+
+    - name: require basicauth
+      copy:
+        content: |
+          <Location />
+            AuthType basic
+            AuthName "authentication required"
+            AuthUserFile /etc/apache2/htpasswd
+            Require valid-user
+          </Location>
+        dest: /etc/apache2/conf-enabled/zz_basicauth.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2
+
+    - name: http proxy cvesearch
+      copy:
+        content: |
+          Listen 15443
+          <VirtualHost _default_:15443>
+            DocumentRoot /var/www/html
+            ErrorLog ${APACHE_LOG_DIR}/cvesearch-error.log
+            CustomLog ${APACHE_LOG_DIR}/cvesearch-access.log combined
+            SSLEngine on
+            SSLCertificateFile /etc/apache2/ssl/server.crt
+            SSLCertificateKeyFile /etc/apache2/ssl/server.key
+            ProxyPass / http://localhost:15000/
+            ProxyPassReverse / http://localhost:15000/
+          </VirtualHost>
+        dest: /etc/apache2/sites-enabled/cvesearch.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2
+
+    - name: http proxy esd
+      copy:
+        content: |
+          ProxyPass /esd http://127.0.0.1:9200
+          ProxyPassReverse /esd http://127.0.0.1:9200
+        dest: /etc/apache2/conf-enabled/esd.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2
+
+    - name: http proxy kibana
+      copy:
+        content: |
+          ProxyPass /kibana http://127.0.0.1:5601
+          ProxyPassReverse /kibana http://127.0.0.1:5601
+        dest: /etc/apache2/conf-enabled/kibana.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2

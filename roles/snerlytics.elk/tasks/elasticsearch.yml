@@ -21,14 +21,3 @@
     name: elasticsearch
     enabled: true
     state: started
-
-- name: configure reverse proxy
-  copy:
-    content: |
-      ProxyPass /esd http://127.0.0.1:9200
-      ProxyPassReverse /esd http://127.0.0.1:9200
-    dest: /etc/apache2/conf-enabled/esd.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2

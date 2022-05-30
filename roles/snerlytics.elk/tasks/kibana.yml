@@ -16,17 +16,6 @@
     name: kibana
     enabled: true
 
-- name: configure reverse proxy
-  copy:
-    content: |
-      ProxyPass /kibana http://127.0.0.1:5601
-      ProxyPassReverse /kibana http://127.0.0.1:5601
-    dest: /etc/apache2/conf-enabled/kibana.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2
-
 - name: npm and nodejs
   apt:
     name:
