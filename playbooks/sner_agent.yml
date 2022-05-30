@@ -12,7 +12,6 @@
           set -e
           umask 077
           . venv/bin/activate && bin/server auth add-agent | awk '{print $(NF)}' > /etc/sner-ansible/sner_agent_apikey
-          touch .sner-ansible.agent_apikey
         chdir: /opt/sner
         creates: /etc/sner-ansible/sner_agent_apikey
 
