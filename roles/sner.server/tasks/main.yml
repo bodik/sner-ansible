@@ -43,7 +43,7 @@
     block: |
       server:
         secret: '{{ server_secret }}'
-        db: 'postgresql://sner:{{ db_password }}@localhost/sner'
+        sqlalchemy_database_uri: 'postgresql://sner:{{ db_password }}@localhost/sner'
         application_root: '/sner'
         session_idletime: 36000
   notify: restart sner-web
