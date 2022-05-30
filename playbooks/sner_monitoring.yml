@@ -1,5 +1,5 @@
 ---
-- name: monitoring
+- name: sner monitoring
   hosts: localhost
   roles:
     - sner.apache2

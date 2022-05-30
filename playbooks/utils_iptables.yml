@@ -1,5 +1,0 @@
----
-- name: setup iptables
-  hosts: localhost
-  roles:
-    - bodik.iptables

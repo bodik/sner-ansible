@@ -1,5 +1,5 @@
 ---
-- name: install all in one setup for localhost
+- name: sner devel node
   hosts: localhost
 
   roles:

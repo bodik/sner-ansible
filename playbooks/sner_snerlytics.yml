@@ -1,5 +1,5 @@
 ---
-- name: install snerlytics node
+- name: snerlytics node
   hosts: localhost
 
   vars:
