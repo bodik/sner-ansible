@@ -5,7 +5,7 @@
   hosts: localhost
 
   vars:
-    le_registration_email: bodik@cesnet.cz
+    le_registration_email: "root@{{ ansible_facts['fqdn'] }}"
 
   handlers:
     - name: restart apache2
@@ -30,7 +30,7 @@
         --non-interactive --agree-tos --email '{{ le_registration_email }}'
         --webroot --webroot-path /var/www/html
         --cert-name "{{ ansible_facts['fqdn'] }}" --domain "{{ ansible_facts['fqdn'] }}"
-      when: '"No certs found" in check_certificate.stdout'
+      when: '"No certificates found" in check_certificate.stdout'
       notify: restart apache2
 
     - name: cert apache links
