@@ -1,18 +1,4 @@
 ---
-- name: add agent
-  shell:
-    cmd: |
-      . venv/bin/activate
-      umask 077
-      mkdir -p {{ apikey_cache_path | dirname }}
-      bin/server auth add-agent > {{ apikey_cache_path }}
-    chdir: /opt/sner
-    creates: "{{ apikey_cache_path }}"
-
-- name: apikey as fact
-  set_fact:
-    apikey: "{{ lookup('file', apikey_cache_path).split(' ')[-1] }}"
-
 - name: config file
   file:
     path: /etc/sner.yaml
@@ -31,3 +17,9 @@
       agent:
         server: '{{ server_url }}'
         apikey: '{{ apikey }}'
+
+- name: enable sner-agent@1 service
+  service:
+    name: sner-agent@1
+    enabled: true
+    state: started

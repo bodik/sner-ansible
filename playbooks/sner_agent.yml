@@ -1,6 +1,20 @@
 ---
-- name: simple server and agent deployment
+- name: local agent deployment
   hosts: localhost
-  roles:
-    - sner.install
-    - sner.agent
+
+  tasks:
+    - import_role:
+        name: sner.install
+
+    - name: add agent
+      shell:
+        cmd: |
+          set -e
+          umask 077
+          . venv/bin/activate && bin/server auth add-agent | awk '{print $(NF)}' > /etc/sner-ansible/sner_agent_apikey
+          touch .sner-ansible.agent_apikey
+        chdir: /opt/sner
+        creates: /etc/sner-ansible/sner_agent_apikey
+
+    - import_role:
+        name: sner.agent

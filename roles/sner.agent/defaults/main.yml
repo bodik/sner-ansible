@@ -1,3 +1,3 @@
 ---
 server_url: 'http://localhost/sner'
-apikey_cache_path: /etc/sner-ansible/sner_apikey_cache
+apikey: "{{ lookup('password', '/etc/sner-ansible/sner_agent_apikey chars=ascii_letters,digits length=40') }}"
