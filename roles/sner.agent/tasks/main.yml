@@ -31,12 +31,3 @@
       agent:
         server: '{{ server_url }}'
         apikey: '{{ apikey }}'
-
-- name: prepare agent service file
-  copy:
-    src: files/sner-agent@.service
-    dest: /etc/systemd/system/sner-agent@.service
-    owner: root
-    group: root
-    mode: 0644
-  notify: reload systemd

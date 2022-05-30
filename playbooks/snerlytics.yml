@@ -30,4 +30,7 @@
         path: /etc/apache2/htpasswd
         username: "{{ snerlytics_user }}"
         password: "{{ snerlytics_password }}"
+        owner: root
+        group: www-data
+        mode: 0640
       no_log: true

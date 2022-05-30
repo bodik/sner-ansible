@@ -29,6 +29,9 @@
     section: server
     option: "{{ item['key'] }}"
     value: "{{ item['val'] }}"
+    owner: root
+    group: grafana
+    mode: 0640
   loop:
     - {key: http_addr, val: 127.0.0.1}
     - {key: root_url, val: "https://{{ ansible_facts['fqdn'] }}/grafana"}
@@ -42,17 +45,6 @@
       touch .sner-ansible.grafana_admin_password
     chdir: /opt/sner
     creates: /opt/sner/.sner-ansible.grafana_admin_password
-
-- name: configure grafana reverse proxy
-  copy:
-    content: |
-      ProxyPass /grafana http://127.0.0.1:3000/grafana
-      ProxyPassReverse /grafana http://127.0.0.1:3000/grafana
-    dest: /etc/apache2/conf-enabled/grafana.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2
 
 - name: enable and start grafana-server
   service:

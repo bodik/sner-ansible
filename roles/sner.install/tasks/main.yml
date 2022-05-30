@@ -17,9 +17,7 @@
   shell:
     cmd: |
       set -e
-      make venv
-      . venv/bin/activate
-      make install-deps
-      touch .sner-ansible.venv_installed
+      make install
+      touch .sner-ansible.install
     chdir: /opt/sner
-    creates: /opt/sner/.sner-ansible.venv_installed
+    creates: /opt/sner/.sner-ansible.install

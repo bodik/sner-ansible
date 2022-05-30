@@ -17,11 +17,9 @@
         cmd: |
           set -e
           ln -sf ../../extra/git_hookprecommit.sh .git/hooks/pre-commit
-          . venv/bin/activate
-          make db-create-test
+          make install-db
           make install-extra
-          make db-create-default
-          make db
-          touch .sner-ansible.devel_installed
+          ./venv/bin/activate && make db
+          touch .sner-ansible.devel
         chdir: /opt/sner
-        creates: /opt/sner/.sner-ansible.devel_installed
+        creates: /opt/sner/.sner-ansible.devel
