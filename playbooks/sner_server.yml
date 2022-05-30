@@ -5,7 +5,6 @@
     - sner.install
     - sner.apache2
     - sner.server
-    - sner.agent
 
   handlers:
     - name: restart apache2

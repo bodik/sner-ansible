@@ -1,0 +1,6 @@
+---
+- name: simple server and agent deployment
+  hosts: localhost
+  roles:
+    - sner.install
+    - sner.agent
