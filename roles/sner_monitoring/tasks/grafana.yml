@@ -82,3 +82,15 @@
 - name: import dashboards
   include_tasks: grafana_import_dashboard.yml
   with_fileglob: 'files/grafana-dashboards/*.json'
+
+- name: enable apache2 proxy
+  copy:
+    content: |
+      ProxyPass /grafana http://127.0.0.1:3000/grafana
+      ProxyPassReverse /grafana http://127.0.0.1:3000/grafana
+    dest: /etc/apache2/conf-enabled/grafana.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache2
+  when: enable_proxy

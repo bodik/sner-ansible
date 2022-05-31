@@ -1,2 +1,3 @@
 ---
 heap_size: 2g
+enable_proxy: true

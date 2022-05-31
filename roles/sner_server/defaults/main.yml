@@ -1,3 +1,4 @@
 ---
 db_password: "{{ lookup('password', '/etc/sner-ansible/sner_db_password chars=ascii_letters,digits length=40') }}"
 server_secret: "{{ lookup('password', '/etc/sner-ansible/sner_server_secret chars=ascii_letters,digits length=40') }}"
+enable_proxy: true

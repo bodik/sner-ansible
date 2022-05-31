@@ -2,3 +2,4 @@
 repo: https://github.com/cve-search/cve-search.git
 branch: v4.0
 install_dir: /opt/cvesearch
+enable_proxy: true
