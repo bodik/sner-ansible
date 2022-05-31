@@ -1,2 +1,0 @@
-skip_list:
-  - '106'  # role-names, false positive should be fixed in ansible-lint 5.x

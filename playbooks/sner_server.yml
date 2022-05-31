@@ -2,9 +2,9 @@
 - name: sner server
   hosts: localhost
   roles:
-    - sner.install
-    - sner.apache2
-    - sner.server
+    - sner_install
+    - sner_apache2
+    - sner_server
 
   handlers:
     - name: restart apache2

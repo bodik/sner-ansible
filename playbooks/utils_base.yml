@@ -2,4 +2,4 @@
 - name: basic machine config
   hosts: localhost
   roles:
-    - bodik.base
+    - base

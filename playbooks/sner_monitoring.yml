@@ -2,8 +2,8 @@
 - name: sner monitoring
   hosts: localhost
   roles:
-    - sner.apache2
-    - sner.monitoring
+    - sner_apache2
+    - sner_monitoring
 
   handlers:
     - name: restart apache2

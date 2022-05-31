@@ -4,7 +4,7 @@
 
   tasks:
     - import_role:
-        name: sner.install
+        name: sner_install
 
     - name: add agent
       shell:
@@ -16,4 +16,4 @@
         creates: /etc/sner-ansible/sner_agent_apikey
 
     - import_role:
-        name: sner.agent
+        name: sner_agent
