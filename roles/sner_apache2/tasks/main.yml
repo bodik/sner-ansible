@@ -38,6 +38,14 @@
     state: absent
   notify: restart apache2
 
+- name: create documentroot
+  file:
+    path: /var/www/server
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: simple apache config
   copy:
     src: files/00server.conf

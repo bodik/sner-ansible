@@ -15,7 +15,6 @@
     name: "{{ item }}"
   loop:
     - "{{ required_packages }}"
-    - python-virtualenv
     - python3-virtualenv
 
 - name: python deps
