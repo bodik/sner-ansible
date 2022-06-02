@@ -4,10 +4,16 @@
 
   roles:
     - role: sner_apache2
-      tags: [proxy]
+      tags:
+        - proxy
     - role: snerlytics_auth
-      tags: [proxy]
+      tags:
+        - proxy
+
     - role: snerlytics_elk
-      tags: [elk]
+      tags:
+        - elk
+
     - role: snerlytics_cvesearch
-      tags: [cvesearch]
+      tags:
+        - cvesearch

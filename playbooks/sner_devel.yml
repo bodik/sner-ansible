@@ -2,10 +2,11 @@
 - name: sner devel node
   hosts: localhost
 
+  vars:
+    sner_branch: devel
+
   roles:
-    - role: sner_install
-      vars:
-        branch: devel
+    - sner_install
 
   tasks:
     - name: install database

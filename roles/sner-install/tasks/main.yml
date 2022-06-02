@@ -8,10 +8,9 @@
 
 - name: checkout from git
   git:
-    repo: "{{ repo }}"
-    version: "{{ branch }}"
+    repo: "{{ sner_repo }}"
     dest: /opt/sner
-    update: false
+    version: "{{ sner_branch }}"
 
 - name: create venv and install dependencies
   shell:

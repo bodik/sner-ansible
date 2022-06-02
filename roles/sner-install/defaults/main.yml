@@ -1,3 +1,3 @@
 ---
-repo: https://github.com/bodik/sner4.git
-branch: master
+sner_repo: https://github.com/bodik/sner4.git
+sner_branch: master
