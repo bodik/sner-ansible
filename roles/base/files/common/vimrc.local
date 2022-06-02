@@ -1,7 +1,0 @@
-syntax on
-if has("autocmd")
-	filetype plugin indent on
-	autocmd FileType yaml setlocal expandtab tabstop=2 autoindent shiftwidth=2 number softtabstop=0 cursorcolumn
-endif
-set mouse=
-set ttymouse=
