@@ -30,7 +30,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart cvesearch
+  notify: restart uwsgi
 
 - name: system integration paths
   file:
