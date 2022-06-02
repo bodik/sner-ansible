@@ -4,11 +4,14 @@
     name: kibana
     state: present
 
-- name: config file
+- name: config
   lineinfile:
     path: /etc/kibana/kibana.yml
-    line: 'server.basePath: "/kibana"'
-    regexp: '^server.basePath:'
+    line: "{{ item[0] }}: \"{{ item[1] }}\""
+    regexp: "^{{ item[0] }}:"
+  loop:
+    - ['server.basePath', '/kibana']
+    - ['server.publicBaseUrl', "https://{{ ansible_facts['fqdn'] }}/kibana"]
   notify: restart kibana
 
 - name: run service

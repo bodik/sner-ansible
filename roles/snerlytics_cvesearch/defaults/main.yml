@@ -1,5 +1,5 @@
 ---
 repo: https://github.com/cve-search/cve-search.git
-branch: v4.0
+branch: v4.2.1
 install_dir: /opt/cvesearch
 enable_proxy: true
