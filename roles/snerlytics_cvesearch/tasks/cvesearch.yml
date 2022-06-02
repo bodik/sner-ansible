@@ -49,23 +49,48 @@
     dest: /opt/cvesearch/log
     state: link
 
-- name: cvesearch web service
-  copy:
-    src: files/cvesearch.service
-    dest: /etc/systemd/system/cvesearch.service
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart cvesearch
-
-- name: enable cvesearch service
-  service:
-    name: cvesearch
-    enabled: true
-
 - name: enable db update
   cron:
     name: cvesearch db update
     minute: '1'
     hour: '3'
     job: '/opt/cvesearch/venv/bin/python /opt/cvesearch/sbin/db_updater.py -v 1>/dev/null'
+
+- name: install uwsgi container
+  package:
+    name:
+      - uwsgi
+      - uwsgi-plugin-python3
+
+- name: configure uwsgi
+  copy:
+    src: files/uwsgi-cvesearch.ini
+    dest: /etc/uwsgi/apps-enabled/cvesearch.ini
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart uwsgi
+
+- name: http proxy cvesearch
+  block:
+    - name: install uwsgi proxy
+      package:
+        name: libapache2-mod-proxy-uwsgi
+        state: present
+
+    - name: enable uwsgi module
+      apache2_module:
+        name: proxy_uwsgi
+        state: present
+      notify: restart apache2
+
+    - name: http proxy cvesearch
+      copy:
+        content: |
+          ProxyPass / unix:/var/run/uwsgi/app/cvesearch/socket|uwsgi://uwsgi-cvesearch/
+        dest: /etc/apache2/conf-enabled/cvesearch.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2
+  when: enable_proxy

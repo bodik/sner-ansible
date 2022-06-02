@@ -1,7 +1,7 @@
 ---
-- name: restart cvesearch
+- name: restart uwsgi
   service:
-    name: cvesearch
+    name: uwsgi
     state: restarted
 
 - name: restart apache2

@@ -1,0 +1,6 @@
+---
+- name: sner apache helper playbook
+  hosts: localhost
+
+  roles:
+    - role: sner_apache2
