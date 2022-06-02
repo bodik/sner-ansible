@@ -1,2 +1,2 @@
 ---
-rules_file: files/nftables.conf-default
+nftables_rules_file: files/nftables.conf-default

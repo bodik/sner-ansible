@@ -5,9 +5,9 @@
       - nftables
     state: present
 
-- name: nftables configfig
+- name: nftables config
   copy:
-    src: "{{ rules_file }}"
+    src: "{{ nftables_rules_file }}"
     dest: /etc/nftables.conf
     owner: root
     group: root
