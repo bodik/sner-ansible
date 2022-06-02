@@ -3,7 +3,6 @@
   hosts: localhost
 
   roles:
-    - role: swapfile
     - role: sner_apache2
     - role: snerlytics_elk
     - role: snerlytics_cvesearch
