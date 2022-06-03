@@ -15,7 +15,7 @@ scrape_configs:
   # sner prod
   - job_name: sner-local
     scheme: https
-    metrics_path: /sner/api/stats/prometheus
+    metrics_path: /sner/api/v2/stats/prometheus
     static_configs:
       - targets: ['localhost']
     tls_config:
