@@ -12,17 +12,14 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9100']
 
-  # sner prod
-  - job_name: sner-local
-    scheme: https
+  # sner-web
+  - job_name: sner-web
     metrics_path: /sner/api/v2/stats/prometheus
     static_configs:
       - targets: ['localhost']
-    tls_config:
-      insecure_skip_verify: true
 
-#  # sner devel
-#  - job_name: sner-local
-#    metrics_path: /api/stats/prometheus
+#  # Development Server
+#  - job_name: sner-devserver
+#    metrics_path: /api/v2/stats/prometheus
 #    static_configs:
 #      - targets: ['localhost:18000']
