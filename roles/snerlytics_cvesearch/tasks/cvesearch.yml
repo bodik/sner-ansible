@@ -87,7 +87,7 @@
     - name: http proxy cvesearch
       copy:
         content: |
-          ProxyPass / unix:/var/run/uwsgi/app/cvesearch/socket|uwsgi://uwsgi-cvesearch/
+          ProxyPass /cvesearch unix:/var/run/uwsgi/app/cvesearch/socket|uwsgi://uwsgi-cvesearch/
         dest: /etc/apache2/conf-enabled/cvesearch.conf
         owner: root
         group: root
