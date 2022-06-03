@@ -1,0 +1,5 @@
+---
+- name: restart sner-agent@1
+  service:
+    name: sner-agent@1
+    state: restarted
