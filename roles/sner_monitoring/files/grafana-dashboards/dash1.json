@@ -66,19 +66,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sner_storage_hosts_total{job=\"sner-local\"}",
+          "expr": "sner_storage_hosts_total{job=\"sner-web\"}",
           "interval": "",
           "legendFormat": "hosts",
           "refId": "A"
         },
         {
-          "expr": "sner_storage_notes_total{job=\"sner-local\"}",
+          "expr": "sner_storage_notes_total{job=\"sner-web\"}",
           "interval": "",
           "legendFormat": "notes",
           "refId": "B"
         },
         {
-          "expr": "sner_storage_services_total{job=\"sner-local\"}",
+          "expr": "sner_storage_services_total{job=\"sner-web\"}",
           "interval": "",
           "legendFormat": "services",
           "refId": "C"
@@ -175,7 +175,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sner_scheduler_jobs_total{job=\"sner-local\"}",
+          "expr": "sner_scheduler_jobs_total{job=\"sner-web\"}",
           "interval": "",
           "legendFormat": "{{state}}",
           "refId": "A"
@@ -268,7 +268,7 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "sner_scheduler_jobs_total{job=\"sner-local\"}",
+          "expr": "sner_scheduler_jobs_total{job=\"sner-web\"}",
           "instant": true,
           "interval": "",
           "legendFormat": "jobs {{state}}",
@@ -328,7 +328,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sner_scheduler_queue_targets_total{job=\"sner-local\"}",
+          "expr": "sner_scheduler_queue_targets_total{job=\"sner-web\"}",
           "interval": "",
           "legendFormat": "{{name}}",
           "refId": "A"
