@@ -1,3 +1,4 @@
+---
 sner_planner_home_netranges_ipv4: []
 sner_planner_home_netranges_ipv6:
   - '::1/128'
