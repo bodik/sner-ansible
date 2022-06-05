@@ -1,7 +1,7 @@
 ---
-- name: restart sner-web
+- name: restart sner-server
   service:
-    name: sner-web
+    name: sner-server
     state: restarted
 
 - name: restart apache2

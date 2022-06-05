@@ -57,9 +57,9 @@
     chdir: /opt/sner
     creates: /opt/sner/.sner-ansible.db
 
-- name: enable sner-web service
+- name: enable sner-server service
   service:
-    name: sner-web
+    name: sner-server
     enabled: true
     state: started
 
