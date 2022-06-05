@@ -1,0 +1,10 @@
+---
+- name: install deps
+  package:
+    name:
+      - bsd-mailx
+    state: present
+
+- name: install autopostgresqlbackup
+  apt:
+    deb: http://ftp.debian.org/debian/pool/main/a/autopostgresqlbackup/autopostgresqlbackup_1.1-1.1_all.deb
