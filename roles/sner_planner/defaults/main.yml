@@ -1,0 +1,8 @@
+sner_planner_home_netranges_ipv4: []
+sner_planner_home_netranges_ipv6:
+  - '::1/128'
+sner_planner_stage_netlistenum_schedule: '120days'
+sner_planner_stage_storagesixenum_schedule: '90days'
+sner_planner_stage_storagerescan_schedule: '1hour'
+sner_planner_stage_storagerescan_service_interval: '20days'
+sner_planner_stage_storagerescan_host_interval: '60days'

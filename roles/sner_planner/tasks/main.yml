@@ -1,0 +1,7 @@
+---
+- name: configure planner
+  blockinfile:
+    path: /etc/sner.yaml
+    marker: "# ANSIBLE MARKER {mark} planner config"
+    block: "{{ lookup('template', 'templates/sner_planner.yaml.j2') }}"
+  notify: restart sner-planner

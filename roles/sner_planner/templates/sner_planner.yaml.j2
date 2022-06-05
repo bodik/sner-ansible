@@ -1,0 +1,57 @@
+planner:
+  common:
+    home_netranges_ipv4: &home_netranges_ipv4
+      {{ sner_planner_home_netranges_ipv4 | to_yaml(default_flow_style=False)}}
+    home_netranges_ipv6: &home_netranges_ipv6
+      {{ sner_planner_home_netranges_ipv6 | to_yaml(default_flow_style=False)}}
+
+  stages:
+    # queue processors
+    stage_storageloader:
+      _class: StorageLoader
+
+    stage_standalonequeues:
+      _class: StorageLoaderQueueHandler
+      queues:
+        - 'sner nmap script'
+
+    stage_servicescan:
+      _class: StorageLoaderQueueHandler
+      queues:
+        - 'sner servicescan nmap version'
+        - 'sner servicescan jarm'
+
+    stage_servicedisco:
+      _class: ServiceDisco
+      queues:
+        - 'sner servicedisco nmap'
+
+    stage_sixenumdisco:
+      _class: SixDiscoQueueHandler
+      queues:
+        - 'sner six_enum_discover'
+
+    stage_sixdnsdisco:
+      _class: SixDiscoQueueHandler
+      queues:
+        - 'sner six_dns_discover'
+      filter_nets: *home_netranges_ipv6
+
+    # schedules
+    stage_storagecleanup:
+      _class: StorageCleanup
+
+    stage_netlistenum:
+      _class: NetlistEnum
+      schedule: {{ sner_planner_stage_netlistenum_schedule }}
+      netlist: *home_netranges_ipv4
+
+    stage_storagesixenum:
+      _class: StorageSixEnum
+      schedule: {{ sner_planner_stage_storagesixenum_schedule }}
+
+    stage_storagerescan:
+      _class: StorageRescan
+      schedule: {{ sner_planner_stage_storagerescan_schedule }}
+      service_interval: {{ sner_planner_stage_storagerescan_service_interval }}
+      host_interval: {{ sner_planner_stage_storagerescan_host_interval }}
