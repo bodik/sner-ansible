@@ -12,8 +12,8 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9100']
 
-  # sner-web
-  - job_name: sner-web
+  # sner-server
+  - job_name: sner-server
     metrics_path: /sner/api/v2/stats/prometheus
     static_configs:
       - targets: ['localhost']
