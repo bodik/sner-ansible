@@ -1,7 +1,9 @@
 ---
 - name: install packages
   apt:
-    name: prometheus
+    name:
+      - prometheus
+      - prometheus-node-exporter
     state: present
 
 - name: config prometheus listener
@@ -17,6 +19,14 @@
     regexp: '^ARGS='
     line: "ARGS=\"--web.listen-address='127.0.0.1:9100'\""
   notify: restart prometheus-node-exporter
+
+- name: create conf.d
+  file:
+    path: /etc/prometheus/conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0644
 
 - name: config prometheus.yml
   copy:

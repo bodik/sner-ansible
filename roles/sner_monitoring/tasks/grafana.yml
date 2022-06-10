@@ -78,16 +78,3 @@
     name: grafana-server
     enabled: true
     state: started
-
-- name: enable apache2 proxy
-  copy:
-    content: |
-      ProxyPreserveHost On
-      ProxyPass /grafana http://127.0.0.1:3000/grafana
-      ProxyPassReverse /grafana http://127.0.0.1:3000/grafana
-    dest: /etc/apache2/conf-enabled/grafana.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2
-  when: enable_proxy

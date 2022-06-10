@@ -1,3 +1,4 @@
 ---
 - include: prometheus.yml
 - include: grafana.yml
+- include: proxy.yml
