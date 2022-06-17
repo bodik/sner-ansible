@@ -1,4 +1,13 @@
 ---
-db_password: "{{ lookup('password', '/etc/sner-ansible/sner_db_password chars=ascii_letters,digits length=40') }}"
-server_secret: "{{ lookup('password', '/etc/sner-ansible/sner_server_secret chars=ascii_letters,digits length=40') }}"
+# sner basic config
+sner_server_db_host: 'localhost'
+sner_server_db_name: 'sner'
+sner_server_db_user: 'sner'
+sner_server_db_password: "{{ lookup('password', '/etc/sner-ansible/sner_db_password chars=ascii_letters,digits length=40') }}"
+sner_server_secret: "{{ lookup('password', '/etc/sner-ansible/sner_server_secret chars=ascii_letters,digits length=40') }}"
+
+# sner extra config
+sner_server_config: {}
+
+# sner_server role config
 enable_proxy: true
