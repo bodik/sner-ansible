@@ -1,5 +1,5 @@
 ---
-# sner basic config
+# sner required config
 sner_server_db_host: 'localhost'
 sner_server_db_name: 'sner'
 sner_server_db_user: 'sner'
