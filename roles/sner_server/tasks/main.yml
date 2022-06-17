@@ -40,18 +40,18 @@
 - name: server config
   tags: server_config
   vars:
-    config_base:
+    sner_server_config_base:
       secret_key: '{{ sner_server_secret_key }}'
       # yamllint disable-line rule:line-length
       sqlalchemy_database_uri: 'postgresql://{{ sner_server_db_user }}:{{ sner_server_db_password }}@{{ sner_server_db_host }}/{{ sner_server_db_name }}'
       application_root: '/sner'
-    config_real: "{{ config_base | combine(sner_server_config, recursive=True) }}"
+    sner_server_config_real: "{{ sner_server_config_base | combine(sner_server_config, recursive=True) }}"
   blockinfile:
     path: /etc/sner.yaml
     marker: "# ANSIBLE MARKER {mark} server config"
     block: |
       server:
-      {{ config_real | to_nice_yaml(indent=2, sort_keys=False) | indent(2, first=True) }}
+      {{ sner_server_config_real | to_nice_yaml(indent=2, sort_keys=False) | indent(2, first=True) }}
   notify: restart sner-server
 
 - name: initialize database
