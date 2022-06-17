@@ -15,7 +15,7 @@
     marker: "# ANSIBLE MARKER {mark} agent config"
     block: |
       agent:
-        server: '{{ sner_server_url }}'
+        server: '{{ sner_agent_server_url }}'
         apikey: '{{ sner_agent_apikey }}'
   notify: restart sner-agent@1
 
