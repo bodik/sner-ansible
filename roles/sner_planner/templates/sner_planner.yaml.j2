@@ -1,9 +1,9 @@
 planner:
   common:
     home_netranges_ipv4: &home_netranges_ipv4
-      {{ sner_planner_home_netranges_ipv4 | to_yaml(default_flow_style=False)}}
+      {{ sner_planner_home_netranges_ipv4 | to_yaml(default_flow_style=False) }}
     home_netranges_ipv6: &home_netranges_ipv6
-      {{ sner_planner_home_netranges_ipv6 | to_yaml(default_flow_style=False)}}
+      {{ sner_planner_home_netranges_ipv6 | to_yaml(default_flow_style=False) }}
 
   stages:
     # queue processors
