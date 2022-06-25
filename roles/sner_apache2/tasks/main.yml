@@ -8,6 +8,7 @@
     name: "{{ item }}"
     state: present
   loop:
+    - rewrite
     - proxy
     - proxy_http
     - ssl
@@ -50,15 +51,6 @@
   copy:
     src: files/00server.conf
     dest: /etc/apache2/sites-enabled/00server.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache2
-
-- name: forcehttps
-  copy:
-    src: files/zz_forcehttps.conf
-    dest: /etc/apache2/conf-enabled/zz_forcehttps.conf
     owner: root
     group: root
     mode: 0644
