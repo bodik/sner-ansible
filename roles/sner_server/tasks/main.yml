@@ -42,9 +42,10 @@
   vars:
     sner_server_config_base:
       secret_key: '{{ sner_server_secret_key }}'
-      # yamllint disable-line rule:line-length
-      sqlalchemy_database_uri: 'postgresql://{{ sner_server_db_user }}:{{ sner_server_db_password }}@{{ sner_server_db_host }}/{{ sner_server_db_name }}'
       application_root: '/sner'
+      xflask_proxyfix: true
+      # yamllint disable-line rule:line-length
+      sqlalchemy_database_uri: "postgresql://{{ sner_server_db_user }}:{{ sner_server_db_password }}@{{ sner_server_db_host }}/{{ sner_server_db_name }}"
     sner_server_config_real: "{{ sner_server_config_base | combine(sner_server_config, recursive=True) }}"
   blockinfile:
     path: /etc/sner.yaml
