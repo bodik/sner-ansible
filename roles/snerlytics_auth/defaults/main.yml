@@ -1,3 +1,0 @@
----
-user: user1
-password: "{{ lookup('password', '/etc/sner-ansible/snerlytics_password chars=ascii_letters,digits length=40') }}"
