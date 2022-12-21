@@ -1,4 +1,5 @@
 ---
 grafana_admin_password: "{{ lookup('password', '/etc/sner-ansible/grafana_admin_password chars=ascii_letters,digits length=40') }}"
 grafana_dashboards_dir: files/grafana-dashboards/  # keep trailing slash
+prometheus_retention: '365d'
 enable_proxy: true

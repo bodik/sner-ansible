@@ -10,7 +10,7 @@
   lineinfile:
     path: /etc/default/prometheus
     regexp: '^ARGS='
-    line: "ARGS=\"--web.listen-address='127.0.0.1:9090'\""
+    line: "ARGS=\"--web.listen-address='127.0.0.1:9090' --storage.tsdb.retention.time={{ prometheus_retention }}\""
   notify: restart prometheus
 
 - name: config prometheus-node-exporter listener
