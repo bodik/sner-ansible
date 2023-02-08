@@ -1,3 +1,5 @@
+DISCONTINUED
+
 # sner-ansible
 
 ## Usage
